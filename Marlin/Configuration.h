@@ -726,12 +726,13 @@
  * Custom configuration variables used to calculate the above
  * setting, DEFAULT_AXIS_STEPS_PER_UNIT, with variable setups
  *
- */
- // Steps per Motor Revolution' which is the number of steps it 
- // takes for the motor to make one, full, three-hundred sixty degree turn. 
- // For 0.9 degree stepper: 360°/0.9°, or 400 full steps
- // For 1.8 degree stepper: 360°/1.8°, or 200 full steps
- // Then divide by microstepping value (1/32)
+ *
+ * Steps per Motor Revolution' which is the number of steps it 
+ * takes for the motor to make one, full, three-hundred sixty degree turn. 
+ * For 0.9 degree stepper: 360°/0.9°, or 400 full steps
+ * For 1.8 degree stepper: 360°/1.8°, or 200 full steps
+ * Then divide by microstepping value (1/32)
+ **/
  #define STEPS_PER_REVOLUTION_X (400.0 * 32.0) // 0.9° motor
  #define STEPS_PER_REVOLUTION_Y (200.0 * 32.0) // 1.8° motor
  #define STEPS_PER_REVOLUTION_Z (200.0 * 32.0) // 1.8° motor
@@ -765,7 +766,7 @@
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
- *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4[, E5]]]]]
+ *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #define DEFAULT_MAX_FEEDRATE          { 200, 200, 12, 120 } // most recent: { 200, 200, 15, 50 } // old { 500, 500, 5, 25 }
 
@@ -778,7 +779,7 @@
  * Default Max Acceleration (change/s) change = mm/s
  * (Maximum start speed for accelerated moves)
  * Override with M201
- *                                      X, Y, Z, E0 [, E1[, E2[, E3[, E4[, E5]]]]]
+ *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
 #define DEFAULT_MAX_ACCELERATION      { 1300, 1300, 200, 5000 }  // old { 500, 500, 100, 5000 }
 
