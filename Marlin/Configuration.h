@@ -964,7 +964,7 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { -14, 23, -1.550 } // default: { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 27, 7, 0 } // default: { 10, 10, 0 }
 
 // Certain types of probes need to stay away from edges
 #define MIN_PROBE_EDGE 10
@@ -1102,19 +1102,19 @@
 // specify if using the original homing location
 #define HOME_TO_REAR_CONFIGURATION false
 
-// nozzle homes over bed in original location
-#define X_HOME_TO_REAR_NOZZLE_OFFSET 21
-#define Y_HOME_TO_REAR_NOZZLE_OFFSET 14
+// nozzle does not home over bed in original location
+#define X_HOME_TO_REAR_NOZZLE_OFFSET -20
+#define Y_HOME_TO_REAR_NOZZLE_OFFSET 20
 // but in new location, it homes over air
-#define X_HOME_TO_FRONT_NOZZLE_OFFSET -15
-#define Y_HOME_TO_FRONT_NOZZLE_OFFSET -12
+#define X_HOME_TO_FRONT_NOZZLE_OFFSET -5
+#define Y_HOME_TO_FRONT_NOZZLE_OFFSET 0
 
-#define X_MIN_POS_OFFSET ((HOME_TO_REAR_CONFIGURATION) ? 0 : X_HOME_TO_FRONT_NOZZLE_OFFSET)
-#define Y_MIN_POS_OFFSET ((HOME_TO_REAR_CONFIGURATION) ? 0 : Y_HOME_TO_FRONT_NOZZLE_OFFSET)
+#define X_MIN_POS_OFFSET X_HOME_TO_FRONT_NOZZLE_OFFSET //((HOME_TO_REAR_CONFIGURATION) ? 0 : X_HOME_TO_FRONT_NOZZLE_OFFSET)
+#define Y_MIN_POS_OFFSET Y_HOME_TO_FRONT_NOZZLE_OFFSET //((HOME_TO_REAR_CONFIGURATION) ? 0 : Y_HOME_TO_FRONT_NOZZLE_OFFSET)
 
 // The size of the print bed
-#define X_BED_SIZE (HEATED_PRINT_BED_X - X_HOME_TO_REAR_NOZZLE_OFFSET)
-#define Y_BED_SIZE (HEATED_PRINT_BED_Y - Y_HOME_TO_REAR_NOZZLE_OFFSET)
+#define X_BED_SIZE (HEATED_PRINT_BED_X - (((X_HOME_TO_REAR_NOZZLE_OFFSET) > 0 ) ? X_HOME_TO_REAR_NOZZLE_OFFSET : 0))
+#define Y_BED_SIZE (HEATED_PRINT_BED_Y - (((Y_HOME_TO_REAR_NOZZLE_OFFSET) > 0 ) ? Y_HOME_TO_REAR_NOZZLE_OFFSET : 0))
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
 #define X_MIN_POS X_MIN_POS_OFFSET
