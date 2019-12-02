@@ -474,9 +474,9 @@
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
   // MyMaker with E3D v6 hotend
-  #define DEFAULT_Kp 21.00        
-  #define DEFAULT_Ki  1.24        
-  #define DEFAULT_Kd 88.72        
+  #define DEFAULT_Kp 32.39
+  #define DEFAULT_Ki 2.41
+  #define DEFAULT_Kd 108.75
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
