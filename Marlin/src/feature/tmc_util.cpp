@@ -25,7 +25,7 @@
 #if HAS_TRINAMIC
 
 #include "tmc_util.h"
-#include "../Marlin.h"
+#include "../MarlinCore.h"
 
 #include "../module/stepper/indirection.h"
 #include "../module/printcounter.h"
@@ -349,58 +349,58 @@
       #if AXIS_IS_TMC(X)
         if (monitor_tmc_driver(stepperX, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(X2)
-            step_current_down(stepperX2)
+            step_current_down(stepperX2);
           #endif
         }
       #endif
       #if AXIS_IS_TMC(X2)
         if (monitor_tmc_driver(stepperX2, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(X)
-            step_current_down(stepperX)
+            step_current_down(stepperX);
           #endif
         }
       #endif
       #if AXIS_IS_TMC(Y)
         if (monitor_tmc_driver(stepperY, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(Y2)
-            step_current_down(stepperY2)
+            step_current_down(stepperY2);
           #endif
         }
       #endif
       #if AXIS_IS_TMC(Y2)
         if (monitor_tmc_driver(stepperY2, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(Y)
-            step_current_down(stepperY)
+            step_current_down(stepperY);
           #endif
         }
       #endif
       #if AXIS_IS_TMC(Z)
         if (monitor_tmc_driver(stepperZ, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(Z2)
-            step_current_down(stepperZ2)
+            step_current_down(stepperZ2);
           #endif
           #if AXIS_IS_TMC(Z3)
-            step_current_down(stepperZ3)
+            step_current_down(stepperZ3);
           #endif
         }
       #endif
       #if AXIS_IS_TMC(Z2)
         if (monitor_tmc_driver(stepperZ2, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(Z)
-            step_current_down(stepperZ)
+            step_current_down(stepperZ);
           #endif
           #if AXIS_IS_TMC(Z3)
-            step_current_down(stepperZ3)
+            step_current_down(stepperZ3);
           #endif
         }
       #endif
       #if AXIS_IS_TMC(Z3)
         if (monitor_tmc_driver(stepperZ3, need_update_error_counters, need_debug_reporting)) {
           #if AXIS_IS_TMC(Z)
-            step_current_down(stepperZ)
+            step_current_down(stepperZ);
           #endif
           #if AXIS_IS_TMC(Z2)
-            step_current_down(stepperZ2)
+            step_current_down(stepperZ2);
           #endif
         }
       #endif
@@ -1022,7 +1022,7 @@
 #if USE_SENSORLESS
 
   bool tmc_enable_stallguard(TMC2130Stepper &st) {
-    bool stealthchop_was_enabled = st.en_pwm_mode();
+    const bool stealthchop_was_enabled = st.en_pwm_mode();
 
     st.TCOOLTHRS(0xFFFFF);
     st.en_pwm_mode(false);
@@ -1038,9 +1038,10 @@
 
   bool tmc_enable_stallguard(TMC2209Stepper &st) {
     st.TCOOLTHRS(0xFFFFF);
-    return true;
+    return !st.en_spreadCycle();
   }
-  void tmc_disable_stallguard(TMC2209Stepper &st, const bool restore_stealth _UNUSED) {
+  void tmc_disable_stallguard(TMC2209Stepper &st, const bool restore_stealth) {
+    st.en_spreadCycle(!restore_stealth);
     st.TCOOLTHRS(0);
   }
 

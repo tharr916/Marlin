@@ -54,7 +54,7 @@
 #include "../core/language.h"
 #include "../libs/vector_3.h"   // for matrix_3x3
 #include "../gcode/gcode.h"
-#include "../Marlin.h"
+#include "../MarlinCore.h"
 
 #if EITHER(EEPROM_SETTINGS, SD_FIRMWARE_UPDATE)
   #include "../HAL/shared/persistent_store_api.h"
@@ -788,11 +788,16 @@ void MarlinSettings::postprocess() {
       _FIELD_TEST(hotendPID);
       HOTEND_LOOP() {
         PIDCF_t pidcf = {
-                       PID_PARAM(Kp, e),
-          unscalePID_i(PID_PARAM(Ki, e)),
-          unscalePID_d(PID_PARAM(Kd, e)),
-                       PID_PARAM(Kc, e),
-                       PID_PARAM(Kf, e)
+          #if DISABLED(PIDTEMP)
+            DUMMY_PID_VALUE, DUMMY_PID_VALUE, DUMMY_PID_VALUE,
+            DUMMY_PID_VALUE, DUMMY_PID_VALUE
+          #else
+                         PID_PARAM(Kp, e),
+            unscalePID_i(PID_PARAM(Ki, e)),
+            unscalePID_d(PID_PARAM(Kd, e)),
+                         PID_PARAM(Kc, e),
+                         PID_PARAM(Kf, e)
+          #endif
         };
         EEPROM_WRITE(pidcf);
       }
@@ -1140,7 +1145,7 @@ void MarlinSettings::postprocess() {
         EEPROM_WRITE(planner.extruder_advance_K);
       #else
         dummy = 0;
-        for (uint8_t q = EXTRUDERS; q--;) EEPROM_WRITE(dummy);
+        for (uint8_t q = _MAX(EXTRUDERS, 1); q--;) EEPROM_WRITE(dummy);
       #endif
     }
 
@@ -1929,7 +1934,7 @@ void MarlinSettings::postprocess() {
       // Linear Advance
       //
       {
-        float extruder_advance_K[EXTRUDERS];
+        float extruder_advance_K[_MAX(EXTRUDERS, 1)];
         _FIELD_TEST(planner_extruder_advance_K);
         EEPROM_READ(extruder_advance_K);
         #if ENABLED(LIN_ADVANCE)
@@ -2347,9 +2352,14 @@ void MarlinSettings::reset() {
   #endif
 
   #if HAS_BED_PROBE
-    constexpr float dpo[XYZ] = NOZZLE_TO_PROBE_OFFSET;
+    constexpr float dpo[] = NOZZLE_TO_PROBE_OFFSET;
     static_assert(COUNT(dpo) == 3, "NOZZLE_TO_PROBE_OFFSET must contain offsets for X, Y, and Z.");
-    LOOP_XYZ(a) probe_offset[a] = dpo[a];
+    #if HAS_PROBE_XY_OFFSET
+      LOOP_XYZ(a) probe_offset[a] = dpo[a];
+    #else
+      probe_offset.x = probe_offset.y = 0;
+      probe_offset.z = dpo[Z_AXIS];
+    #endif
   #endif
 
   //
@@ -2544,9 +2554,9 @@ void MarlinSettings::reset() {
   #if ENABLED(LIN_ADVANCE)
     LOOP_L_N(i, EXTRUDERS) {
       planner.extruder_advance_K[i] = LIN_ADVANCE_K;
-    #if ENABLED(EXTRA_LIN_ADVANCE_K)
-      saved_extruder_advance_K[i] = LIN_ADVANCE_K;
-    #endif
+      #if ENABLED(EXTRA_LIN_ADVANCE_K)
+        saved_extruder_advance_K[i] = LIN_ADVANCE_K;
+      #endif
     }
   #endif
 
@@ -2872,10 +2882,12 @@ void MarlinSettings::reset() {
           for (uint8_t py = 0; py < GRID_MAX_POINTS_Y; py++) {
             for (uint8_t px = 0; px < GRID_MAX_POINTS_X; px++) {
               CONFIG_ECHO_START();
-              SERIAL_ECHOPAIR_P(PSTR("  G29 S3 X"), (int)px + 1, SP_Y_STR, (int)py + 1);
+              SERIAL_ECHOPAIR_P(PSTR("  G29 S3 I"), (int)px, PSTR(" J"), (int)py);
               SERIAL_ECHOLNPAIR_F_P(SP_Z_STR, LINEAR_UNIT(mbl.z_values[px][py]), 5);
             }
           }
+          CONFIG_ECHO_START();
+          SERIAL_ECHOLNPAIR_F_P(PSTR("  G29 S4 Z"), LINEAR_UNIT(mbl.z_offset), 5);
         }
 
       #elif ENABLED(AUTO_BED_LEVELING_UBL)
@@ -3095,9 +3107,16 @@ void MarlinSettings::reset() {
         say_units(true);
       }
       CONFIG_ECHO_START();
-      SERIAL_ECHOLNPAIR_P(PSTR("  M851 X"), LINEAR_UNIT(probe_offset.x),
-                                  SP_Y_STR, LINEAR_UNIT(probe_offset.y),
-                                  SP_Z_STR, LINEAR_UNIT(probe_offset.z));
+      SERIAL_ECHOLNPAIR_P(
+        #if HAS_PROBE_XY_OFFSET
+          PSTR("  M851 X"), LINEAR_UNIT(probe_offset_xy.x),
+                  SP_Y_STR, LINEAR_UNIT(probe_offset_xy.y),
+                  SP_Z_STR
+        #else
+          PSTR("  M851 X0 Y0 Z")
+        #endif
+        , LINEAR_UNIT(probe_offset.z)
+      );
     #endif
 
     /**
@@ -3124,33 +3143,31 @@ void MarlinSettings::reset() {
 
       #if AXIS_IS_TMC(X) || AXIS_IS_TMC(Y) || AXIS_IS_TMC(Z)
         say_M906(forReplay);
-        SERIAL_ECHOLNPAIR_P(
-          #if AXIS_IS_TMC(X)
-            SP_X_STR, stepperX.getMilliamps(),
-          #endif
-          #if AXIS_IS_TMC(Y)
-            SP_Y_STR, stepperY.getMilliamps(),
-          #endif
-          #if AXIS_IS_TMC(Z)
-            SP_Z_STR, stepperZ.getMilliamps()
-          #endif
-        );
+        #if AXIS_IS_TMC(X)
+          SERIAL_ECHOPAIR_P(SP_X_STR, stepperX.getMilliamps());
+        #endif
+        #if AXIS_IS_TMC(Y)
+          SERIAL_ECHOPAIR_P(SP_Y_STR, stepperY.getMilliamps());
+        #endif
+        #if AXIS_IS_TMC(Z)
+          SERIAL_ECHOPAIR_P(SP_Z_STR, stepperZ.getMilliamps());
+        #endif
+        SERIAL_EOL();
       #endif
 
       #if AXIS_IS_TMC(X2) || AXIS_IS_TMC(Y2) || AXIS_IS_TMC(Z2)
         say_M906(forReplay);
         SERIAL_ECHOPGM(" I1");
-        SERIAL_ECHOLNPAIR_P(
-          #if AXIS_IS_TMC(X2)
-            SP_X_STR, stepperX2.getMilliamps(),
-          #endif
-          #if AXIS_IS_TMC(Y2)
-            SP_Y_STR, stepperY2.getMilliamps(),
-          #endif
-          #if AXIS_IS_TMC(Z2)
-            SP_Z_STR, stepperZ2.getMilliamps()
-          #endif
-        );
+        #if AXIS_IS_TMC(X2)
+          SERIAL_ECHOPAIR_P(SP_X_STR, stepperX2.getMilliamps());
+        #endif
+        #if AXIS_IS_TMC(Y2)
+          SERIAL_ECHOPAIR_P(SP_Y_STR, stepperY2.getMilliamps());
+        #endif
+        #if AXIS_IS_TMC(Z2)
+          SERIAL_ECHOPAIR_P(SP_Z_STR, stepperZ2.getMilliamps());
+        #endif
+        SERIAL_EOL();
       #endif
 
       #if AXIS_IS_TMC(Z3)
@@ -3321,9 +3338,9 @@ void MarlinSettings::reset() {
 
         if (chop_x || chop_y || chop_z) {
           say_M569(forReplay);
-          if (chop_x) SERIAL_ECHOPGM_P(SP_X_STR);
-          if (chop_y) SERIAL_ECHOPGM_P(SP_Y_STR);
-          if (chop_z) SERIAL_ECHOPGM_P(SP_Z_STR);
+          if (chop_x) SERIAL_ECHO_P(SP_X_STR);
+          if (chop_y) SERIAL_ECHO_P(SP_Y_STR);
+          if (chop_z) SERIAL_ECHO_P(SP_Z_STR);
           SERIAL_EOL();
         }
 
@@ -3345,9 +3362,9 @@ void MarlinSettings::reset() {
 
         if (chop_x2 || chop_y2 || chop_z2) {
           say_M569(forReplay, PSTR("I1"));
-          if (chop_x2) SERIAL_ECHOPGM_P(SP_X_STR);
-          if (chop_y2) SERIAL_ECHOPGM_P(SP_Y_STR);
-          if (chop_z2) SERIAL_ECHOPGM_P(SP_Z_STR);
+          if (chop_x2) SERIAL_ECHO_P(SP_X_STR);
+          if (chop_y2) SERIAL_ECHO_P(SP_Y_STR);
+          if (chop_z2) SERIAL_ECHO_P(SP_Z_STR);
           SERIAL_EOL();
         }
 
