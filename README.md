@@ -1,4 +1,4 @@
-﻿# SKR 1.3 Creality Ender-5 Marlin 2.0.x Firmware
+﻿﻿# SKR 1.3 Creality Ender-5 Marlin 2.0.x Firmware
 
 [![Build Status](https://travis-ci.org/tharr916/Marlin.svg?branch=Ender-5-SKR-1.3-TMC2130-Linear-Advance)](https://travis-ci.org/tharr916/Marlin)
 ![GitHub](https://img.shields.io/github/license/marlinfirmware/marlin.svg)
@@ -48,9 +48,10 @@ This firmware is configured for *my* Ender-3 fitted with a BigTreeTech SKR 1.3 a
 
 ### Stepper Motors
 
-|BRAND|NAME/MODEL|SIZE|STEP_ANGLE|STEP/REV|V_DC|MAX_AMP|τ_HOLD|
-|-----|----------|----|----------|--------|-------|-------|------|
-|Usongshine|[17HS4023 42-23](https://ae01.alicdn.com/kf/HTB1dnr6emzqK1RjSZPcq6zTepXaB.jpg)|42x23|1.8°|200|4.1V|1.0A|13 Ncm|
-|Creality|[JK42HS34-0844](https://ecksteinimg.de/Datasheet/Schrittmotor/JK42HS34-0844A/JK42HS34-0844YA-01.pdf)|42x34|1.8°|200|4.83V|1.0A|27 Ncm|
-|Creality|[K42HS40-1004A-02F](https://www.reprap.me/creality-3d-two-phase-42-40-reprap-42mm-stepper-motor-for-ender-3-3d-printer.html)|42x40|1.8°|200|2.8V|1.5A|40 Ncm|
-|Wetterot|[17HM3410](https://shop.watterott.com/Stepper-Motor-NEMA-17-400-Steps-42x34mm-2V-17A)|42x34|0.9°|400|2V|1.7A|24 Ncm|
+|AXIS|BRAND|NAME/MODEL|SIZE|STEP_ANGLE|STEP/REV|V_DC|MAX_AMP|τ_HOLD|
+|-----|-----|----------|----|----------|--------|-------|-------|------|
+| X   |Wetterot|[17HM3410](https://shop.watterott.com/Stepper-Motor-NEMA-17-400-Steps-42x34mm-2V-17A)|42x34|0.9°|400|2V|1.7A|24 Ncm|
+| Y   |Creality|[K42HS40-1004A-02F](https://www.reprap.me/creality-3d-two-phase-42-40-reprap-42mm-stepper-motor-for-ender-3-3d-printer.html)|42x40|1.8°|200|2.8V|1.5A|40 Ncm|
+| Z(1)|Creality|[JK42HS34-0844](https://ecksteinimg.de/Datasheet/Schrittmotor/JK42HS34-0844A/JK42HS34-0844YA-01.pdf)|42x34|1.8°|200|4.83V|1.5A|35 Ncm|
+| Z(2)|Creality|[JK42HS34-0844](https://ecksteinimg.de/Datasheet/Schrittmotor/JK42HS34-0844A/JK42HS34-0844YA-01.pdf)|42x34|1.8°|200|4.83V|1.5A|35 Ncm|
+| E   |Usongshine|[17HS4023 42-23](https://ae01.alicdn.com/kf/HTB1dnr6emzqK1RjSZPcq6zTepXaB.jpg)|42x23|1.8°|200|4.1V|1.0A|13 Ncm|
