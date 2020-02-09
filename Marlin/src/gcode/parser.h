@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -366,7 +366,7 @@ public:
 
   static inline feedRate_t value_feedrate() { return MMM_TO_MMS(value_linear_units()); }
 
-  void unknown_command_error();
+  void unknown_command_warning();
 
   // Provide simple value accessors with default option
   static inline float    floatval(const char c, const float dval=0.0)   { return seenval(c) ? value_float()        : dval; }

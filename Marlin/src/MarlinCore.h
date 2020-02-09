@@ -1,6 +1,6 @@
 /**
  * Marlin 3D Printer Firmware
- * Copyright (c) 2019 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
+ * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
  * Based on Sprinter and grbl.
  * Copyright (c) 2011 Camiel Gubbels / Erik van der Zalm
@@ -120,5 +120,5 @@ void protected_pin_err();
   void event_probe_failure();
 #endif
 
-extern const char NUL_STR[], G28_STR[], M21_STR[], M23_STR[], M24_STR[],
-                  SP_X_STR[], SP_Y_STR[], SP_Z_STR[], SP_E_STR[];
+extern const char NUL_STR[], M112_KILL_STR[], G28_STR[], M21_STR[], M23_STR[], M24_STR[],
+                  SP_P_STR[], SP_T_STR[], SP_X_STR[], SP_Y_STR[], SP_Z_STR[], SP_E_STR[];
