@@ -482,10 +482,10 @@
                                   // is more than PID_FUNCTIONAL_RANGE then the PID will be shut off and the heater will be set to min/max.
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
-  // MyMaker with E3D v6 hotend
-  #define DEFAULT_Kp 32.39
-  #define DEFAULT_Ki 2.41
-  #define DEFAULT_Kd 108.75
+  // MyMaker with E3D v6 hotend - KPI set 02/10/2020
+  #define DEFAULT_Kp 36.34
+  #define DEFAULT_Ki 2.69
+  #define DEFAULT_Kd 122.89
 
   // Ultimaker
   //#define DEFAULT_Kp 22.2
