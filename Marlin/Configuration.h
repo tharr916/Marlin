@@ -501,10 +501,10 @@
 
 // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
-// MyMaker with E3D v6 hotend - KPI set 02/10/2020
-#define DEFAULT_Kp 36.34
-#define DEFAULT_Ki 2.69
-#define DEFAULT_Kd 122.89
+// MyMaker with E3D v6 hotend - KPI calculated and set on Leap Day, 2020
+#define DEFAULT_Kp 35.02
+#define DEFAULT_Ki 2.49
+#define DEFAULT_Kd 122.92
 
 // Ultimaker
 //#define DEFAULT_Kp 22.2
