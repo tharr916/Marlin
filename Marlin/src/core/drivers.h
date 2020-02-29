@@ -21,7 +21,10 @@
  */
 #pragma once
 
-#include "../inc/MarlinConfigPre.h"
+//
+// Included by MarlinConfigPre.h ahead of Configuration_adv.h.
+// Don't use #if in this file for anything not defined early!
+//
 
 #define _A4988              0x4988
 #define _A5984              0x5984
@@ -58,11 +61,7 @@
 #define AXIS_DRIVER_TYPE_Y(T) _AXIS_DRIVER_TYPE(Y,T)
 #define AXIS_DRIVER_TYPE_Z(T) _AXIS_DRIVER_TYPE(Z,T)
 
-#if EITHER(X_DUAL_STEPPER_DRIVERS, DUAL_X_CARRIAGE)
-  #define AXIS_DRIVER_TYPE_X2(T) _AXIS_DRIVER_TYPE(X2,T)
-#else
-  #define AXIS_DRIVER_TYPE_X2(T) false
-#endif
+#define AXIS_DRIVER_TYPE_X2(T) (EITHER(X_DUAL_STEPPER_DRIVERS, DUAL_X_CARRIAGE) && _AXIS_DRIVER_TYPE(X2,T))
 #define AXIS_DRIVER_TYPE_Y2(T) (ENABLED(Y_DUAL_STEPPER_DRIVERS) && _AXIS_DRIVER_TYPE(Y2,T))
 #define AXIS_DRIVER_TYPE_Z2(T) (NUM_Z_STEPPER_DRIVERS >= 2 && _AXIS_DRIVER_TYPE(Z2,T))
 #define AXIS_DRIVER_TYPE_Z3(T) (NUM_Z_STEPPER_DRIVERS >= 3 && _AXIS_DRIVER_TYPE(Z3,T))
@@ -159,7 +158,7 @@
                                    || AXIS_DRIVER_TYPE(A,TMC5160) )
 
 #define _OR_EAH(N,T)    || AXIS_HAS_##T(E##N)
-#define E_AXIS_HAS(T)   (0 RREPEAT2(E_STEPPERS, _OR_EAH, T))
+#define E_AXIS_HAS(T)   (0 _OR_EAH(0,T) _OR_EAH(1,T) _OR_EAH(2,T) _OR_EAH(3,T) _OR_EAH(4,T) _OR_EAH(5,T) _OR_EAH(6,T) _OR_EAH(7,T))
 
 #define ANY_AXIS_HAS(T) (    AXIS_HAS_##T(X)  || AXIS_HAS_##T(X2) \
                           || AXIS_HAS_##T(Y)  || AXIS_HAS_##T(Y2) \

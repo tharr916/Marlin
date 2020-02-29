@@ -785,7 +785,7 @@ namespace ExtUI {
     #if HAS_BED_PROBE
       return probe.offset.z;
     #elif ENABLED(BABYSTEP_DISPLAY_TOTAL)
-      return (planner.steps_to_mm[Z_AXIS] * babystep.axis_total[BS_TODO_AXIS(Z_AXIS)]);
+      return (planner.steps_to_mm[Z_AXIS] * babystep.axis_total[BS_AXIS_IND(Z_AXIS)]);
     #else
       return 0.0;
     #endif
@@ -894,24 +894,17 @@ namespace ExtUI {
 
   float getFeedrate_percent() { return feedrate_percentage; }
 
-  #if HAS_PID_HEATING
+  #if ENABLED(PIDTEMP)
     float getPIDValues_Kp(const extruder_t tool) {
       return PID_PARAM(Kp, tool);
     }
+
     float getPIDValues_Ki(const extruder_t tool) {
       return unscalePID_i(PID_PARAM(Ki, tool));
     }
+
     float getPIDValues_Kd(const extruder_t tool) {
       return unscalePID_d(PID_PARAM(Kd, tool));
-    }
-    float getBedPIDValues_Kp() {
-      return thermalManager.temp_bed.pid.Kp;
-    }
-    float getBedPIDValues_Ki() {
-      return unscalePID_i(thermalManager.temp_bed.pid.Ki);
-    }
-    float getBedPIDValues_Kd() {
-      return unscalePID_d(thermalManager.temp_bed.pid.Kd);
     }
 
     void setPIDValues(const float p, const float i, const float d, extruder_t tool) {
@@ -920,6 +913,25 @@ namespace ExtUI {
       thermalManager.temp_hotend[tool].pid.Kd = scalePID_d(d);
       thermalManager.updatePID();
     }
+
+    void startPIDTune(const float temp, extruder_t tool){
+      thermalManager.PID_autotune(temp, (heater_ind_t)tool, 8, true);
+    }
+  #endif
+
+  #if ENABLED(PIDTEMPBED)
+    float getBedPIDValues_Kp() {
+      return thermalManager.temp_bed.pid.Kp;
+    }
+
+    float getBedPIDValues_Ki() {
+      return unscalePID_i(thermalManager.temp_bed.pid.Ki);
+    }
+
+    float getBedPIDValues_Kd() {
+      return unscalePID_d(thermalManager.temp_bed.pid.Kd);
+    }
+
     void setBedPIDValues(const float p, const float i, const float d) {
       thermalManager.temp_bed.pid.Kp = p;
       thermalManager.temp_bed.pid.Ki = scalePID_i(i);
@@ -927,9 +939,6 @@ namespace ExtUI {
       thermalManager.updatePID();
     }
 
-    void startPIDTune(const float temp, extruder_t tool){
-      thermalManager.PID_autotune(temp, (heater_ind_t)tool, 8, true);
-    }
     void startBedPIDTune(const float temp) {
       thermalManager.PID_autotune(temp, H_BED, 4, true);
     }
