@@ -186,10 +186,7 @@
 //#define SWITCHING_EXTRUDER
 #if ENABLED(SWITCHING_EXTRUDER)
 #define SWITCHING_EXTRUDER_SERVO_NR 0
-#define SWITCHING_EXTRUDER_SERVO_ANGLES \
-  {                                     \
-    0, 90                               \
-  } // Angles for E0, E1[, E2, E3]
+#define SWITCHING_EXTRUDER_SERVO_ANGLES { 0, 90 } // Angles for E0, E1[, E2, E3]
 #if EXTRUDERS > 3
 #define SWITCHING_EXTRUDER_E23_SERVO_NR 1
 #endif
@@ -200,10 +197,7 @@
 #if ENABLED(SWITCHING_NOZZLE)
 #define SWITCHING_NOZZLE_SERVO_NR 0
 //#define SWITCHING_NOZZLE_E1_SERVO_NR 1          // If two servos are used, the index of the second
-#define SWITCHING_NOZZLE_SERVO_ANGLES \
-  {                                   \
-    0, 90                             \
-  } // Angles for E0, E1 (single servo) or lowered/raised (dual servo)
+#define SWITCHING_NOZZLE_SERVO_ANGLES { 0, 90 } // Angles for E0, E1 (single servo) or lowered/raised (dual servo)
 #endif
 
 /**
@@ -224,10 +218,7 @@
 
 #if EITHER(PARKING_EXTRUDER, MAGNETIC_PARKING_EXTRUDER)
 
-#define PARKING_EXTRUDER_PARKING_X \
-  {                                \
-    -78, 184                       \
-  }                                      // X positions for parking the extruders
+#define PARKING_EXTRUDER_PARKING_X { -78, 184 }                                      // X positions for parking the extruders
 #define PARKING_EXTRUDER_GRAB_DISTANCE 1 // (mm) Distance to move beyond the parking point to grab the extruder
 //#define MANUAL_SOLENOID_CONTROL                   // Manual control of docking solenoids with M380 S / M381
 
@@ -278,22 +269,13 @@
 #define SWITCHING_TOOLHEAD_Y_POS 235     // (mm) Y position of the toolhead dock
 #define SWITCHING_TOOLHEAD_Y_SECURITY 10 // (mm) Security distance Y axis
 #define SWITCHING_TOOLHEAD_Y_CLEAR 60    // (mm) Minimum distance from dock for unobstructed X axis
-#define SWITCHING_TOOLHEAD_X_POS \
-  {                              \
-    215, 0                       \
-  } // (mm) X positions for parking the extruders
+#define SWITCHING_TOOLHEAD_X_POS { 215, 0 } // (mm) X positions for parking the extruders
 #if ENABLED(SWITCHING_TOOLHEAD)
 #define SWITCHING_TOOLHEAD_SERVO_NR 2 // Index of the servo connector
-#define SWITCHING_TOOLHEAD_SERVO_ANGLES \
-  {                                     \
-    0, 180                              \
-  } // (degrees) Angles for Lock, Unlock
+#define SWITCHING_TOOLHEAD_SERVO_ANGLES { 0, 180 } // (degrees) Angles for Lock, Unlock
 #elif ENABLED(MAGNETIC_SWITCHING_TOOLHEAD)
 #define SWITCHING_TOOLHEAD_Y_RELEASE 5 // (mm) Security distance Y axis
-#define SWITCHING_TOOLHEAD_X_SECURITY \
-  {                                   \
-    90, 150                           \
-  } // (mm) Security distance X axis (T0,T1)
+#define SWITCHING_TOOLHEAD_X_SECURITY { 90, 150 } // (mm) Security distance X axis (T0,T1)
 //#define PRIME_BEFORE_REMOVE                       // Prime the nozzle before release from the dock
 #if ENABLED(PRIME_BEFORE_REMOVE)
 #define SWITCHING_TOOLHEAD_PRIME_MM 20           // (mm)   Extruder prime length
@@ -795,27 +777,18 @@
 #define AXIS_STEPS_PER_UNIT_E 349.71                                                  // (STEPS_PER_REVOLUTION_E * EXTRUDER_GEAR_RATIO / (HOBB_WHEEL_DIAMETER * PI_FOR_OUR_PURPOSES))  // 349.71
 
 // OLD #define DEFAULT_AXIS_STEPS_PER_UNIT   { 80*2, 80*2, 400*2, 464.485*2 } //  doubling for 1/32 microstepping
-#define DEFAULT_AXIS_STEPS_PER_UNIT                                                            \
-  {                                                                                            \
-    AXIS_STEPS_PER_UNIT_X, AXIS_STEPS_PER_UNIT_Y, AXIS_STEPS_PER_UNIT_Z, AXIS_STEPS_PER_UNIT_E \
-  }
+#define DEFAULT_AXIS_STEPS_PER_UNIT { AXIS_STEPS_PER_UNIT_X, AXIS_STEPS_PER_UNIT_Y, AXIS_STEPS_PER_UNIT_Z, AXIS_STEPS_PER_UNIT_E }
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE \
-  {                          \
-    200, 200, 12, 120        \
-  } // most recent: { 200, 200, 15, 50 } // old { 500, 500, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE { 200, 200, 12, 120 } // most recent: { 200, 200, 15, 50 } // old { 500, 500, 5, 25 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
-#define MAX_FEEDRATE_EDIT_VALUES \
-  {                              \
-    600, 600, 10, 50             \
-  } // ...or, set your own edit limits
+#define MAX_FEEDRATE_EDIT_VALUES { 600, 600, 10, 50 } // ...or, set your own edit limits
 #endif
 
 /**
@@ -824,17 +797,11 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION \
-  {                              \
-    1300, 1300, 200, 5000        \
-  } // old { 500, 500, 100, 5000 }
+#define DEFAULT_MAX_ACCELERATION { 1300, 1300, 200, 5000 } // old { 500, 500, 100, 5000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
-#define MAX_ACCEL_EDIT_VALUES \
-  {                           \
-    6000, 6000, 200, 20000    \
-  } // ...or, set your own edit limits
+#define MAX_ACCEL_EDIT_VALUES { 6000, 6000, 200, 20000 } // ...or, set your own edit limits
 #endif
 
 /**
@@ -1031,14 +998,11 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET \
-  {                            \
-    27, 7, 0                   \
-  } // default: { 10, 10, 0 }
+#define NOZZLE_TO_PROBE_OFFSET { 27, 7, -2.47 } // default: { 10, 10, 0 }
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define MIN_PROBE_EDGE 10
+#define MIN_PROBE_EDGE 5
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 15000
@@ -1083,11 +1047,11 @@
 #define Z_PROBE_LOW_POINT -2 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -20
-#define Z_PROBE_OFFSET_RANGE_MAX 20
+#define Z_PROBE_OFFSET_RANGE_MIN -5
+#define Z_PROBE_OFFSET_RANGE_MAX 1
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1129,7 +1093,7 @@
 // @section extruder
 
 #define DISABLE_E false // For all extruders
-//#define DISABLE_INACTIVE_EXTRUDER // Keep only the active extruder enabled
+#define DISABLE_INACTIVE_EXTRUDER // Keep only the active extruder enabled
 
 // @section machine
 
@@ -1169,31 +1133,13 @@
 
 // @section machine
 
-// Current configuration specifications
-// size of the heated print mat
-#define HEATED_PRINT_BED_X 235
-#define HEATED_PRINT_BED_Y 235
-
-// specify if using the original homing location
-#define HOME_TO_REAR_CONFIGURATION false
-
-// nozzle does not home over bed in original location
-#define X_HOME_TO_REAR_NOZZLE_OFFSET -20
-#define Y_HOME_TO_REAR_NOZZLE_OFFSET 20
-// but in new location, it homes over air
-#define X_HOME_TO_FRONT_NOZZLE_OFFSET -23
-#define Y_HOME_TO_FRONT_NOZZLE_OFFSET 0
-
-#define X_MIN_POS_OFFSET X_HOME_TO_FRONT_NOZZLE_OFFSET //((HOME_TO_REAR_CONFIGURATION) ? 0 : X_HOME_TO_FRONT_NOZZLE_OFFSET)
-#define Y_MIN_POS_OFFSET Y_HOME_TO_FRONT_NOZZLE_OFFSET //((HOME_TO_REAR_CONFIGURATION) ? 0 : Y_HOME_TO_FRONT_NOZZLE_OFFSET)
-
 // The size of the print bed
-#define X_BED_SIZE (HEATED_PRINT_BED_X - (((X_HOME_TO_REAR_NOZZLE_OFFSET) > 0) ? X_HOME_TO_REAR_NOZZLE_OFFSET : 0))
-#define Y_BED_SIZE (HEATED_PRINT_BED_Y - (((Y_HOME_TO_REAR_NOZZLE_OFFSET) > 0) ? Y_HOME_TO_REAR_NOZZLE_OFFSET : 0))
+#define X_BED_SIZE 235
+#define Y_BED_SIZE 235
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS X_MIN_POS_OFFSET
-#define Y_MIN_POS Y_MIN_POS_OFFSET
+#define X_MIN_POS -23
+#define Y_MIN_POS 0
 #define Z_MIN_POS 0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
@@ -1211,17 +1157,17 @@
 // Min software endstops constrain movement within minimum coordinate bounds
 #define MIN_SOFTWARE_ENDSTOPS
 #if ENABLED(MIN_SOFTWARE_ENDSTOPS)
-#define MIN_SOFTWARE_ENDSTOP_X
-#define MIN_SOFTWARE_ENDSTOP_Y
-#define MIN_SOFTWARE_ENDSTOP_Z
+  #define MIN_SOFTWARE_ENDSTOP_X
+  #define MIN_SOFTWARE_ENDSTOP_Y
+  #define MIN_SOFTWARE_ENDSTOP_Z
 #endif
 
 // Max software endstops constrain movement within maximum coordinate bounds
 #define MAX_SOFTWARE_ENDSTOPS
 #if ENABLED(MAX_SOFTWARE_ENDSTOPS)
-#define MAX_SOFTWARE_ENDSTOP_X
-#define MAX_SOFTWARE_ENDSTOP_Y
-#define MAX_SOFTWARE_ENDSTOP_Z
+  #define MAX_SOFTWARE_ENDSTOP_X
+  #define MAX_SOFTWARE_ENDSTOP_Y
+  #define MAX_SOFTWARE_ENDSTOP_Z
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
@@ -1238,26 +1184,26 @@
  */
 //#define FILAMENT_RUNOUT_SENSOR
 #if ENABLED(FILAMENT_RUNOUT_SENSOR)
-#define NUM_RUNOUT_SENSORS 1       // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
-#define FIL_RUNOUT_INVERTING false // Set to true to invert the logic of the sensor.
-#define FIL_RUNOUT_PULLUP          // Use internal pullup for filament runout pins.
-//#define FIL_RUNOUT_PULLDOWN      // Use internal pulldown for filament runout pins.
+  #define NUM_RUNOUT_SENSORS 1       // Number of sensors, up to one per extruder. Define a FIL_RUNOUT#_PIN for each.
+  #define FIL_RUNOUT_INVERTING false // Set to true to invert the logic of the sensor.
+  #define FIL_RUNOUT_PULLUP          // Use internal pullup for filament runout pins.
+  //#define FIL_RUNOUT_PULLDOWN      // Use internal pulldown for filament runout pins.
 
-// Set one or more commands to execute on filament runout.
-// (After 'M412 H' Marlin will ask the host to handle the process.)
-#define FILAMENT_RUNOUT_SCRIPT "M600"
+  // Set one or more commands to execute on filament runout.
+  // (After 'M412 H' Marlin will ask the host to handle the process.)
+  #define FILAMENT_RUNOUT_SCRIPT "M600"
 
-// After a runout is detected, continue printing this length of filament
-// before executing the runout script. Useful for a sensor at the end of
-// a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
-//#define FILAMENT_RUNOUT_DISTANCE_MM 25
+  // After a runout is detected, continue printing this length of filament
+  // before executing the runout script. Useful for a sensor at the end of
+  // a feed tube. Requires 4 bytes SRAM per sensor, plus 4 bytes overhead.
+  //#define FILAMENT_RUNOUT_DISTANCE_MM 25
 
-#ifdef FILAMENT_RUNOUT_DISTANCE_MM
-// Enable this option to use an encoder disc that toggles the runout pin
-// as the filament moves. (Be sure to set FILAMENT_RUNOUT_DISTANCE_MM
-// large enough to avoid false positives.)
-//#define FILAMENT_MOTION_SENSOR
-#endif
+  #ifdef FILAMENT_RUNOUT_DISTANCE_MM
+  // Enable this option to use an encoder disc that toggles the runout pin
+  // as the filament moves. (Be sure to set FILAMENT_RUNOUT_DISTANCE_MM
+  // large enough to avoid false positives.)
+  //#define FILAMENT_MOTION_SENSOR
+  #endif
 #endif
 
 //===========================================================================
@@ -1334,12 +1280,12 @@
    */
 #define G26_MESH_VALIDATION
 #if ENABLED(G26_MESH_VALIDATION)
-#define MESH_TEST_NOZZLE_SIZE 0.4  // (mm) Diameter of primary nozzle.
-#define MESH_TEST_LAYER_HEIGHT 0.2 // (mm) Default layer height for the G26 Mesh Validation Tool.
-#define MESH_TEST_HOTEND_TEMP 250  // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
-#define MESH_TEST_BED_TEMP 80      // (°C) Default bed temperature for the G26 Mesh Validation Tool.
-#define G26_XY_FEEDRATE 20         // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
-#define G26_RETRACT_MULTIPLIER 1.0 // G26 Q (retraction) used by default between mesh test elements.
+#define MESH_TEST_NOZZLE_SIZE   0.4   // (mm) Diameter of primary nozzle.
+#define MESH_TEST_LAYER_HEIGHT  0.2   // (mm) Default layer height for the G26 Mesh Validation Tool.
+#define MESH_TEST_HOTEND_TEMP   250   // (°C) Default nozzle temperature for the G26 Mesh Validation Tool.
+#define MESH_TEST_BED_TEMP       80   // (°C) Default bed temperature for the G26 Mesh Validation Tool.
+#define G26_XY_FEEDRATE          20   // (mm/s) Feedrate for XY Moves for the G26 Mesh Validation Tool.
+#define G26_RETRACT_MULTIPLIER    1.0 // G26 Q (retraction) used by default between mesh test elements.
 #endif
 
 #endif
@@ -1419,10 +1365,7 @@
 //#define LEVEL_BED_CORNERS
 
 #if ENABLED(LEVEL_BED_CORNERS)
-#define LEVEL_CORNERS_INSET_LFRB \
-  {                              \
-    30, 30, 30, 30               \
-  }                              // (mm) Left, Front, Right, Back insets
+#define LEVEL_CORNERS_INSET_LFRB  { 30, 30, 30, 30 } // (mm) Left, Front, Right, Back insets
 #define LEVEL_CORNERS_HEIGHT 0.0 // (mm) Z height of nozzle at leveling points
 #define LEVEL_CORNERS_Z_HOP 4.0  // (mm) Z height of nozzle between leveling points
 //#define LEVEL_CENTER_TOO              // Move to the center after the last corner
@@ -1501,27 +1444,27 @@
 #define SKEW_CORRECTION
 
 #if ENABLED(SKEW_CORRECTION)
-// Input all length measurements here:
-#define XY_DIAG_AC 280.66
-#define XY_DIAG_BD 282.06
-#define XY_SIDE_AD 199.08
+  // Input all length measurements here:
+  #define XY_DIAG_AC 280.66
+  #define XY_DIAG_BD 282.06
+  #define XY_SIDE_AD 199.08
 
-// Or, set the default skew factors directly here
-// to override the above measurements:
-//#define XY_SKEW_FACTOR 0.0
-//#define SKEW_CORRECTION_FOR_Z
-#if ENABLED(SKEW_CORRECTION_FOR_Z)
-#define XZ_DIAG_AC 282.8427124746
-#define XZ_DIAG_BD 282.8427124746
-#define YZ_DIAG_AC 282.8427124746
-#define YZ_DIAG_BD 282.8427124746
-#define YZ_SIDE_AD 200
-//#define XZ_SKEW_FACTOR 0.0
-//#define YZ_SKEW_FACTOR 0.0
-#endif
+  // Or, set the default skew factors directly here
+  // to override the above measurements:
+  //#define XY_SKEW_FACTOR 0.0
+  //#define SKEW_CORRECTION_FOR_Z
+  #if ENABLED(SKEW_CORRECTION_FOR_Z)
+  #define XZ_DIAG_AC 282.8427124746
+  #define XZ_DIAG_BD 282.8427124746
+  #define YZ_DIAG_AC 282.8427124746
+  #define YZ_DIAG_BD 282.8427124746
+  #define YZ_SIDE_AD 200
+  //#define XZ_SKEW_FACTOR 0.0
+  //#define YZ_SKEW_FACTOR 0.0
+  #endif
 
-// Enable this option for M852 to set skew at runtime
-#define SKEW_CORRECTION_GCODE
+  // Enable this option for M852 to set skew at runtime
+  #define SKEW_CORRECTION_GCODE
 #endif
 
 //=============================================================================
@@ -1594,10 +1537,7 @@
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
 // Specify a park position as { X, Y, Z_raise }
-#define NOZZLE_PARK_POINT                  \
-  {                                        \
-    (X_MAX_POS - 10), (Y_MAX_POS - 10), 20 \
-  }
+#define NOZZLE_PARK_POINT { (X_MAX_POS - 10), (Y_MAX_POS - 10), 20 }
 #define NOZZLE_PARK_XY_FEEDRATE 100 // (mm/s) X and Y axes feedrate (also used for delta Z axis)
 #define NOZZLE_PARK_Z_FEEDRATE 5    // (mm/s) Z axis feedrate (not used for delta printers)
 #endif
@@ -1651,18 +1591,8 @@
 
 // Specify positions for each tool as { { X, Y, Z }, { X, Y, Z } }
 // Dual hotend system may use { {  -20, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) },  {  420, (Y_BED_SIZE / 2), (Z_MIN_POS + 1) }}
-#define NOZZLE_CLEAN_START_POINT \
-  {                              \
-    {                            \
-      30, 30, (Z_MIN_POS + 1)    \
-    }                            \
-  }
-#define NOZZLE_CLEAN_END_POINT \
-  {                            \
-    {                          \
-      100, 60, (Z_MIN_POS + 1) \
-    }                          \
-  }
+#define NOZZLE_CLEAN_START_POINT { { 30, 30, (Z_MIN_POS + 1) } }
+#define NOZZLE_CLEAN_END_POINT   { { 100, 60, (Z_MIN_POS + 1) } }
 
 // Circular pattern radius
 #define NOZZLE_CLEAN_CIRCLE_RADIUS 6.5
@@ -2357,10 +2287,7 @@
 // (ms) Delay  before the next move will start, to give the servo time to reach its target angle.
 // 300ms is a good value but you can try less delay.
 // If the servo can't reach the requested position, increase it.
-#define SERVO_DELAY \
-  {                 \
-    300             \
-  }
+#define SERVO_DELAY { 300 }
 
 // Only power servos during movement, otherwise leave off to prevent jitter
 //#define DEACTIVATE_SERVOS_AFTER_MOVE
