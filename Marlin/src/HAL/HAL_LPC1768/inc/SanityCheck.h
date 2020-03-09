@@ -57,9 +57,7 @@
  * Because PWM hardware channels all share the same frequency, along with the
  * fallback software channels, FAST_PWM_FAN is incompatible with Servos.
  */
-#if NUM_SERVOS > 0 && ENABLED(FAST_PWM_FAN)
-  #error "BLTOUCH and Servos are incompatible with FAST_PWM_FAN on LPC176x boards."
-#endif
+static_assert(!(NUM_SERVOS && ENABLED(FAST_PWM_FAN)), "BLTOUCH and Servos are incompatible with FAST_PWM_FAN on LPC176x boards.");
 
 /**
  * Test LPC176x-specific configuration values for errors at compile-time.
@@ -69,13 +67,13 @@
 //  #error "SPINDLE_LASER_PWM_PIN must use SERVO0, SERVO1 or SERVO3 connector"
 //#endif
 
-#if IS_RE_ARM_BOARD && ENABLED(REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER) && HAS_DRIVER(TMC2130) && DISABLED(TMC_USE_SW_SPI)
-  #error "Re-ARM with REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER and TMC2130 require TMC_USE_SW_SPI"
+#if MB(RAMPS_14_RE_ARM_EFB, RAMPS_14_RE_ARM_EEB, RAMPS_14_RE_ARM_EFF, RAMPS_14_RE_ARM_EEF, RAMPS_14_RE_ARM_SF)
+  #if ENABLED(REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER) && HAS_DRIVER(TMC2130) && DISABLED(TMC_USE_SW_SPI)
+    #error "Re-ARM with REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER and TMC2130 requires TMC_USE_SW_SPI."
+  #endif
 #endif
 
-#if ENABLED(BAUD_RATE_GCODE)
-  #error "BAUD_RATE_GCODE is not yet supported on LPC176x."
-#endif
+static_assert(DISABLED(BAUD_RATE_GCODE), "BAUD_RATE_GCODE is not yet supported on LPC176x.");
 
 /**
  * Flag any serial port conflicts
@@ -176,7 +174,7 @@
 //
 // Flag any i2c pin conflicts
 //
-#if ANY(DIGIPOT_I2C, DIGIPOT_MCP4018, DAC_STEPPER_CURRENT, EXPERIMENTAL_I2CBUS, I2C_POSITION_ENCODERS, NEOPIXEL_LED, PCA9632, I2C_EEPROM)
+#if ANY(DIGIPOT_I2C, DIGIPOT_MCP4018, DAC_STEPPER_CURRENT, EXPERIMENTAL_I2CBUS, I2C_POSITION_ENCODERS, PCA9632, I2C_EEPROM)
   #define USEDI2CDEV_M 1  // <Arduino>/Wire.cpp
 
   #if USEDI2CDEV_M == 0         // P0_27 [D57] (AUX-1) .......... P0_28 [D58] (AUX-1)
